@@ -57,6 +57,8 @@ sudo apt-get install python3-pip
 ```
 等待，直到安装完毕  
 
+**Tips: Ubuntu Server 18.04 提示 cannot import module 'sysconfig'，通过安装 python3-distutils 解决**
+
 **3.3 更换 pip 源**  
 
 由于 pip 源默认是官方的 pypi 源，也会非常慢，因此我们更换下 pip 源。
@@ -96,6 +98,8 @@ sudo pip3 install flask
 sudo pip3 install flask-restful
 ```
 等待，完成
+
+**Tips: Ubuntu Server 18.04 提示**
 
 **Flask-CORS**
 
@@ -181,7 +185,10 @@ charset_set_server = utf8
 service mysql restart
 ```
 
-**5.3 表的初始化**
+**5.3 表的初始化（非必要，可以等到配置全部结束再做）**
+
+**Tips：需要先把源代码克隆到本地**
+
 我们使用代码中的 dbInitialize.py 脚本进行数据库表的初始化。
 ```
 ## 首先进入到 dbInitialize.py 目录下
@@ -239,6 +246,15 @@ location /statics {
 }
 ```
 
+4. Vue 使用 history 模式，需要配置转发时 try_files 转到 index
+
+```
+## 在 location / 中增加修改 try_files
+location / {
+  try_files $uri / /index.html;
+}
+```
+
 保存文件
 
 **6.3 完成配置**
@@ -246,8 +262,10 @@ location /statics {
 重启 Nginx 服务，在 Terminal 输入命令
 
 ```
-cd /etc/init.d
-./nginx reload
+# 第一句检查是否有语法错误
+nginx -t 
+# 重启服务
+nginx -s reload
 ```
 
 #### 7 Gunicorn 相关

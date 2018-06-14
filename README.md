@@ -289,4 +289,39 @@ kill -9 {process_id}
 ```
 ## 后台运行 snowflake 服务
 nohup snowflake_start_server &
+
+```
+
+#### 9 代码相关
+
+首先从仓库拉取代码到本地，使用 git clone 或从仓库下载 zip 再解压
+```
+# 进入到我们想要放的目录下，如 /usr/local/
+cd /usr/local
+git clone --depth=1 https://github.com/rogerswng/olp-latest.git
+```
+
+运行后端代码使用 gunicorn，进入刚才 clone 下来的代码目录，找到 api-dist 目录
+```
+cd olp-latest-master
+cd api-dist
+# 检查该目录下 static 文件夹是否重命名为 statics，没有的话使用 mv static statics 重命名
+# 可以使用 ls 命令看下该目录下是否有 app.py 文件，使用下面的命令开启 api 服务
+gunicorn --reload --daemon --access-logfile gunicorn.access.log app:application
+```
+
+前端代码的打包文件放在了 olp-latest/olp-pages/dist 目录下，我们可以在 nginx 配置文件中将根目录修改为这个目录，或者将这个目录下的文件 cp 到指定目录下。我们使用第一个方案，直接修改根目录。
+
+```
+# 找到 nginx 配置文件
+sudo vi /etc/nginx/sites-enabled/default
+# 将第一个 server {} 中的 root 配置进行修改，默认的值为 root /var/www/html;修改为我们的目录
+server {
+  ...
+  root /usr/local/olp-latest-master/olp-pages/dist;
+  ...
+}
+# 保存，检查语法错误，重启
+nginx -t
+nginx -s reload
 ```

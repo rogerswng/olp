@@ -62,16 +62,16 @@ sudo apt-get install python3-pip
 **3.3 更换 pip 源**  
 
 由于 pip 源默认是官方的 pypi 源，也会非常慢，因此我们更换下 pip 源。
-pip的配置文件路径为 ~/.pip/pip.conf，由于我们使用的是 pip3，因此路径相应地为 ~/.pip3/pip3.conf。我们修改这个文件（若没有则创建目录及文件）
+pip的配置文件路径为 ~/.pip/pip.conf。我们修改这个文件（若没有则创建目录及文件）
 ```
 ## 创建目录及文件
 cd ~
-sudo mkdir .pip3
-cd .pip3
-sudo touch pip3.conf
+sudo mkdir .pip
+cd .pip
+sudo touch pip.conf
 
 ## 编辑文件
-sudo vi pip3.conf
+sudo vi pip.conf
 ```
 在文件中输入以下内容
 ```
